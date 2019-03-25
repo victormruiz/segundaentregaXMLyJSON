@@ -19,8 +19,8 @@ def nombreyactores(datos):
 def buscarsinopsis(palabra1,palabra2,datos):
     sinopsis=[]
     for i in datos:
-        if palabra1 in i["storyline"] or palabra2 in i["storyline"]:
-            sinopsis.append(i["storyline"])
+        if palabra1 in i["storyline"] and palabra2 in i["storyline"]:
+            sinopsis.append(i["title"])
     return sinopsis
 
 def buscarpeliporactor(actor,datos):
@@ -35,8 +35,23 @@ def buscarpeliporactor(actor,datos):
 def sacartrespelis(fecha1,fecha2,datos):
     peliculas=[]
     url=[]
+    media=[]
+    completa=[]
+    suma=0
+    cont=0
     for i in datos:
-        if i["releaseDate"] >
+        if i["releaseDate"] >= fecha1 and i["releaseDate"] <= fecha2:
+            peliculas.append(i["title"])
+            url.append(i["posterurl"])
+            for x in i["ratings"]:
+                suma=suma+x
+                cont=cont+1
+            media.append(suma/cont)
+            cont=0
+            suma=0
+    completa=zip(peliculas,url,media)
+    return completa
+
 
 import json
 with open("movies.json") as fichero:
@@ -67,7 +82,7 @@ while opcion >= 0:
         if len(resultado)==0:
             print("No hay coincidencias.")
         else:
-            print("Las sinopsis que encajan con los palabras dadas son:")
+            print("Las peliculas que encajan con los palabras dadas son:")
             for i in resultado:
                 print(i)
     if opcion == 4:
@@ -83,7 +98,15 @@ while opcion >= 0:
         fecha1=input("Escribe la primera fecha (ej:. 1992-07-26): ")
         fecha2=input("Escribe la segunda fecha (ej:. 1992-07-26): ")
         resultado=sacartrespelis(fecha1,fecha2,datos)
-
+        resultado=list(resultado)
+        resultado.sort(key=lambda nota: nota[2])
+        resultado=resultado[len(resultado)-3:]
+        if len(resultado)==0:
+            print("No hay peliculas en ese rango de fecha.")
+        else:
+            print("Las peliculas con ese rango de fechas son:")
+            for i in resultado:
+                print("titulo:",i[0],"Cartel:",i[1])
 
     print("Elige una opción: ")
     print("1.- Listar el título, año y duración de todas las películas: ")
