@@ -108,6 +108,7 @@ while opcion >= 0:
             for i in resultado:
                 print("titulo:",i[0],"Cartel:",i[1])
 
+    print("")
     print("Elige una opción: ")
     print("1.- Listar el título, año y duración de todas las películas: ")
     print("2.- Mostrar los títulos de las películas y el número de actores/actrices que tiene cada una: ")
