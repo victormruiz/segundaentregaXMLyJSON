@@ -5,6 +5,28 @@ def contarradares(datos):
     nombres=datos.xpath("//NOMBRE/text()")
     return nombres
 
+def cantidadradares(datos):
+    contar=datos.xpath("//PK/text()")
+    numero=len(contar)
+    return numero
+def carreterasdeprovincias(provincia,datos):
+    lista=[]
+    carretera=datos.xpath('//PROVINCIA[NOMBRE="%s"]/CARRETERA/DENOMINACION/text()' % provincia)
+    for i in carretera:
+        if i not in lista:
+            lista.append(i)
+    for i in lista:
+        print("La carretera",i,"tiene",end=" ")
+        contarradar=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/text()' % i)
+        print(len(contarradar),"radares.")
+def carreteraysusprovincias(carretera,datos):
+    provincia=datos.xpath('//CARRETERA[DENOMINACION="%s"]/../NOMBRE/text()' % carretera)
+    for i in provincia:
+        print("Pasa por",i,"y tiene ", end="")
+        radares=datos.xpath('//PROVINCIA[NOMBRE="%s"]/CARRETERA[DENOMINACION="%s"]/RADAR/text()' % (i,carretera))
+        print(len(radares), "radares en ese tramo.")
+
+
 print("Elige una opción: ")
 print("1.- Mostrar el nombre de las provincias de las que tenemos información sobre radares: ")
 print("2.- Mostrar la cantidad de radares de los que tenemos información: ")
@@ -13,18 +35,28 @@ print("4.- Pedir por teclado una carretera, muestra las provincias por la que pa
 print("5.- Pedir por teclado una carretera, cuenta los radares que tiene y muestra las coordenadas de los radares: ")
 print("0.- salir: ")
 opcion=int(input("¿opcion?: "))
+
 while opcion >= 0:
     if opcion== 0:
         print("Saliendo del programa.")
         break
-
     elif opcion == 1:
         nombres=contarradares(datos)
         nombres=','.join(nombres)
         print("tenemos información de las siguientes provincias: ", end="")
         print(nombres)
     elif opcion == 2:
-        
+        contar=cantidadradares(datos)
+        print("Tenemos información de un total de",contar,"radares.")
+    elif opcion == 3:
+        provincia=input("Escribe el nombre de la provincia: ")
+        solucion=carreterasdeprovincias(provincia,datos)
+    elif opcion == 4:
+        carretera=input("Escribe la denominacion de la carretera: ")
+        carreteraysusprovincias(carretera,datos)
+
+
+
 
     print("")
     print("Elige una opción: ")
