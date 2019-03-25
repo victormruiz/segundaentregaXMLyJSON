@@ -1,10 +1,14 @@
 def nombreyanopeliculas(datos):
     nombre=[]
     year=[]
+    duration=[]
     for i in datos:
+        duracion=i["duration"]
+        duracion=duracion[2:len(duracion)-1]
+        duration.append(duracion)
         nombre.append(i["title"])
         year.append(i["year"])
-    combinado=zip(nombre,year)
+    combinado=zip(nombre,year,duration)
     return combinado
 
 def nombreyactores(datos):
@@ -71,7 +75,7 @@ while opcion >= 0:
         break
     if opcion == 1:
         for i in nombreyanopeliculas(datos):
-            print("la película",i[0],"Se estrenó el año",i[1])
+            print("la película",i[0],"Se estrenó el año",i[1],"con una duracion de",i[2],"minutos")
     if opcion == 2:
         for i in nombreyactores(datos):
             print("La pelicula",i[0],"tiene",i[1],"actores")
