@@ -17,7 +17,7 @@ def carreterasdeprovincias(provincia,datos):
             lista.append(i)
     for i in lista:
         print("Pasa la",i,"tiene",end=" ")
-        contarradar=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/text()' % i)
+        contarradar=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/PK/text()' % i)
         print(len(contarradar),"radares.")
 def carreteraysusprovincias(carretera,datos):
     provincia=datos.xpath('//CARRETERA[DENOMINACION="%s"]/../NOMBRE/text()' % carretera)
@@ -59,16 +59,13 @@ while opcion >= 0:
         print("Tenemos información de un total de",contar,"radares.")
     elif opcion == 3:
         provincia=input("Escribe el nombre de la provincia: ")
-        solucion=carreterasdeprovincias(provincia,datos)
+        carreterasdeprovincias(provincia,datos)
     elif opcion == 4:
         carretera=input("Escribe la denominacion de la carretera: ")
         carreteraysusprovincias(carretera,datos)
     elif opcion == 5:
         carretera=input("Escribe la denominacion de la carretera: ")
         localizacionderadares(carretera,datos)
-
-
-
 
     print("")
     print("Elige una opción: ")
