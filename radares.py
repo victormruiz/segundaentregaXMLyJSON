@@ -6,7 +6,7 @@ def contarradares(datos):
     return nombres
 
 def cantidadradares(datos):
-    contar=datos.xpath("//PK/text()")
+    contar=datos.xpath("//PUNTO_INICIAL/PK/text()")
     numero=len(contar)
     return numero
 def carreterasdeprovincias(provincia,datos):
@@ -16,15 +16,24 @@ def carreterasdeprovincias(provincia,datos):
         if i not in lista:
             lista.append(i)
     for i in lista:
-        print("La carretera",i,"tiene",end=" ")
-        contarradar=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/text()' % i)
+        print("Pasa la",i,"tiene",end=" ")
+        contarradar=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/text()' % i)
         print(len(contarradar),"radares.")
 def carreteraysusprovincias(carretera,datos):
     provincia=datos.xpath('//CARRETERA[DENOMINACION="%s"]/../NOMBRE/text()' % carretera)
     for i in provincia:
         print("Pasa por",i,"y tiene ", end="")
-        radares=datos.xpath('//PROVINCIA[NOMBRE="%s"]/CARRETERA[DENOMINACION="%s"]/RADAR/text()' % (i,carretera))
+        radares=datos.xpath('//PROVINCIA[NOMBRE="%s"]/CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/PK/text()' % (i,carretera))
         print(len(radares), "radares en ese tramo.")
+
+def localizacionderadares(carretera,datos):
+    radares=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/PK/text()' % carretera)
+    print("Esa carretera tiene",len(radares),"radares.")
+    print("Estas son sus localizaciones:")
+    latitud=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/LATITUD/text()' % carretera)
+    longitud=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/LONGITUD/text()' % carretera)
+    for x, y in zip(latitud, longitud):
+        print("http://www.openstreetmap.org/#map=14/%s/%s" % (x,y))
 
 
 print("Elige una opción: ")
@@ -54,6 +63,9 @@ while opcion >= 0:
     elif opcion == 4:
         carretera=input("Escribe la denominacion de la carretera: ")
         carreteraysusprovincias(carretera,datos)
+    elif opcion == 5:
+        carretera=input("Escribe la denominacion de la carretera: ")
+        localizacionderadares(carretera,datos)
 
 
 
