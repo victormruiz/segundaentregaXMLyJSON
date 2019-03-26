@@ -21,10 +21,10 @@ def carreterasdeprovincias(provincia,datos):
         print(len(contarradar),"radares.")
 def carreteraysusprovincias(carretera,datos):
     provincia=datos.xpath('//CARRETERA[DENOMINACION="%s"]/../NOMBRE/text()' % carretera)
+    print("Pasa por:")
     for i in provincia:
-        print("Pasa por",i,"y tiene ", end="")
         radares=datos.xpath('//PROVINCIA[NOMBRE="%s"]/CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/PK/text()' % (i,carretera))
-        print(len(radares), "radares en ese tramo.")
+        print(i,"y tiene",len(radares), "radares en ese tramo.")
 
 def localizacionderadares(carretera,datos):
     radares=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/PK/text()' % carretera)
