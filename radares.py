@@ -15,10 +15,12 @@ def carreterasdeprovincias(provincia,datos):
     for i in carretera:
         if i not in lista:
             lista.append(i)
+    contarradar=datos.xpath('count(//PROVINCIA[NOMBRE="%s"]/CARRETERA/RADAR)' % provincia)
+    lista=','.join(lista)
+    print("Por la provincia %s pasan las siguientes carreteras: " % provincia, end="")
     for i in lista:
-        print("Pasa la",i,"tiene",end=" ")
-        contarradar=datos.xpath('//CARRETERA[DENOMINACION="%s"]/RADAR/PUNTO_INICIAL/PK/text()' % i)
-        print(len(contarradar),"radares.")
+        print(i,end="")
+    print(" Y tiene un total de %i radares." % int(contarradar))
 def carreteraysusprovincias(carretera,datos):
     provincia=datos.xpath('//CARRETERA[DENOMINACION="%s"]/../NOMBRE/text()' % carretera)
     print("Pasa por:")
