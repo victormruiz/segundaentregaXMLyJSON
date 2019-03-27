@@ -20,7 +20,7 @@ def carreterasdeprovincias(provincia,datos):
     print("Por la provincia %s pasan las siguientes carreteras: " % provincia, end="")
     for i in lista:
         print(i,end="")
-    print(" Y tiene un total de %i radares." % int(contarradar))
+    print("Y tiene un total de %i radares." % int(contarradar))
 def carreteraysusprovincias(carretera,datos):
     provincia=datos.xpath('//CARRETERA[DENOMINACION="%s"]/../NOMBRE/text()' % carretera)
     print("Pasa por:")
